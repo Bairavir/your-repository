@@ -3,8 +3,8 @@ pipeline {
     
     environment {
         DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
-        LIQUIBASE_HOME = '/usr/local/liquibase/lib/'
-        LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/mysql-connector-java-8.0.26.jar"
+        LIQUIBASE_HOME = '/usr/local/liquibase'
+        LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/mysql-connector-java-8.0.27.jar:${LIQUIBASE_HOME}/liquibase.jar"
     }
     
     stages {
