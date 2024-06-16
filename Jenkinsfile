@@ -21,7 +21,7 @@ pipeline {
                             echo "Database URL: ${DATABASE_URL}"
                             echo "Database Username: ${DB_USERNAME}"
                             echo "Running Liquibase Update..."
-                            LIQUIBASE_CLASSPATH=${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar
+                            LIQUIBASE_CLASSPATH="${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar"
                             java -cp ${LIQUIBASE_CLASSPATH} liquibase.integration.commandline.Main \
                             --url=${DATABASE_URL} \
                             --username=${DB_USERNAME} \
