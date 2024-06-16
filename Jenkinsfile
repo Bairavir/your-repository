@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DB_URL = 'jdbc:mysql://18.234.36.210:3306/my_test_db'
+        DB_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
         DB_USER = credentials('naruto') // Jenkins credentials ID for DB user
         DB_PASSWORD = credentials('12345678NARU') // Jenkins credentials ID for DB password
     }
