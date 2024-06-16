@@ -1,36 +1,32 @@
 pipeline {
     agent any
-    
+
     environment {
-        DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/mydatabase' // Adjust this to your database URL
+        DB_URL = 'jdbc:mysql://18.234.36.210:3306/my_test_db'
+        DB_USER = credentials('naruto') // Jenkins credentials ID for DB user
+        DB_PASSWORD = credentials('12345678NARU') // Jenkins credentials ID for DB password
     }
-    
+
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/bairavir/your-repository.git'
+                git 'https://github.com/your_username/your_repository.git'
             }
         }
-        stage('Apply Database Changes') {
+
+        stage('Run Liquibase') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'db1', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
-                    script {
-                        echo 'Deploying SQL...'
-                        sh '''
-                            /usr/local/bin/liquibase \
-                            --url=${DATABASE_URL} \
-                            --username=${DB_USERNAME} \
-                            --password=${DB_PASSWORD} \
-                            --changeLogFile=sql/changelog.xml update
-                        '''
-                    }
+                script {
+                    sh """
+                        /usr/local/bin/liquibase/liquibase \
+                        --changeLogFile=changelog.xml \
+                        --url=${DB_URL} \
+                        --username=${DB_USER} \
+                        --password=${DB_PASSWORD} \
+                        update
+                    """
                 }
             }
-        }
-    }
-    post {
-        failure {
-            echo 'Database update failed!'
         }
     }
 }
