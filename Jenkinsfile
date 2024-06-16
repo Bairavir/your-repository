@@ -1,32 +1,39 @@
 pipeline {
     agent any
-
+    
     environment {
-        DB_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
-        DB_USER = credentials('naruto') // Jenkins credentials ID for DB user
-        DB_PASSWORD = credentials('12345678NARU') // Jenkins credentials ID for DB password
+        DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
     }
-
+    
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/your_username/your_repository.git'
+                git credentialsId: 'github-token', url: 'https://github.com/Bairavir/your-repository.git', branch: 'main'
             }
         }
-
-        stage('Run Liquibase') {
+        stage('Apply Database Changes') {
             steps {
-                script {
-                    sh """
-                        /usr/local/bin/liquibase/liquibase \
-                        --changeLogFile=changelog.xml \
-                        --url=${DB_URL} \
-                        --username=${DB_USER} \
-                        --password=${DB_PASSWORD} \
-                        update
-                    """
+                withCredentials([usernamePassword(credentialsId: 'db1', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                    script {
+                        echo 'Deploying SQL...'
+                        sh '''
+                            echo "Database URL: ${DATABASE_URL}"
+                            echo "Database Username: ${DB_USERNAME}"
+                            echo "Running Liquibase Update..."
+                            /usr/local/bin/liquibase \
+                            --url=${DATABASE_URL} \
+                            --username=${DB_USERNAME} \
+                            --password=${DB_PASSWORD} \
+                            --changeLogFile=sql/changelog.xml update
+                        '''
+                    }
                 }
             }
+        }
+    }
+    post {
+        failure {
+            echo 'Database update failed!'
         }
     }
 }
