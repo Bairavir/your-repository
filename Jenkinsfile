@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
-        LIQUIBASE_HOME = '/usr/local/bin/liquibase'
+        LIQUIBASE_HOME = '/usr/local/liquibase'
         LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar"
     }
     
