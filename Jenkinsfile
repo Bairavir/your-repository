@@ -3,7 +3,8 @@ pipeline {
     
     environment {
         DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
-        LIQUIBASE_HOME = '/usr/local/liquibase'
+        LIQUIBASE_HOME = '/usr/local/bin/liquibase'
+        LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar"
     }
     
     stages {
@@ -21,7 +22,7 @@ pipeline {
                             echo "Database URL: ${DATABASE_URL}"
                             echo "Database Username: ${DB_USERNAME}"
                             echo "Running Liquibase Update..."
-                            LIQUIBASE_CLASSPATH="${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar"
+                            export LIQUIBASE_CLASSPATH=${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar
                             java -cp ${LIQUIBASE_CLASSPATH} liquibase.integration.commandline.Main \
                             --url=${DATABASE_URL} \
                             --username=${DB_USERNAME} \
