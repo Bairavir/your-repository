@@ -13,6 +13,26 @@ pipeline {
                 git credentialsId: 'github-token', url: 'https://github.com/Bairavir/your-repository.git', branch: 'main'
             }
         }
+        stage('Clear Liquibase Checksums') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'test_db', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                    script {
+                        echo 'Clearing Liquibase Checksums...'
+                        sh '''
+                            echo "Database URL: ${DATABASE_URL}"
+                            echo "Database Username: ${DB_USERNAME}"
+                            echo "Clearing Liquibase Checksums..."
+                            export LIQUIBASE_CLASSPATH=${LIQUIBASE_HOME}/lib/*:${LIQUIBASE_HOME}/liquibase.jar
+                            java -cp ${LIQUIBASE_CLASSPATH} liquibase.integration.commandline.Main \
+                            --url=${DATABASE_URL} \
+                            --username=${DB_USERNAME} \
+                            --password=${DB_PASSWORD} \
+                            --changeLogFile=sql/changelog.xml clearCheckSums
+                        '''
+                    }
+                }
+            }
+        }
         stage('Apply Database Changes') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'test_db', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
