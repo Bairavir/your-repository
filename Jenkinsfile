@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DATABASE_URL = 'jdbc:mysql://54.224.127.177:3306/test_db'
+        DATABASE_URL = 'jdbc:mysql://54.84.9.34:3306/test_db'
         LIQUIBASE_HOME = '/usr/local/liquibase'
         LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/mysql-connector-java-8.0.27.jar:${LIQUIBASE_HOME}/liquibase.jar"
     }
