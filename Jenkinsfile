@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DATABASE_URL = 'jdbc:mysql://18.234.36.210:3306/db1'
+        DATABASE_URL = 'jdbc:mysql://54.224.127.177:3306/test_db'
         LIQUIBASE_HOME = '/usr/local/liquibase'
         LIQUIBASE_CLASSPATH = "${LIQUIBASE_HOME}/lib/mysql-connector-java-8.0.27.jar:${LIQUIBASE_HOME}/liquibase.jar"
     }
@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Apply Database Changes') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'db1', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'test_db', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     script {
                         echo 'Deploying SQL...'
                         sh '''
