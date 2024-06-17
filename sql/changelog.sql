@@ -1,5 +1,5 @@
 -- Example SQL changes
-INSERT INTO tae (name) VALUES ('Alice');
-INSERT INTO tae (name) VALUES ('Bob');
-INSERT INTO tae (name) VALUES ('Charlie');
+INSERT INTO example_tab (name) VALUES ('Alice');
+INSERT INTO example_tab (name) VALUES ('Bob');
+INSERT INTO example_tab (name) VALUES ('Charlie');
 
