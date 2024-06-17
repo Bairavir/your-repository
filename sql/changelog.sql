@@ -1,5 +1,5 @@
 -- Example SQL changes
-CREATE TABLE tae (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL
-);
+INSERT INTO tae (name) VALUES ('Alice');
+INSERT INTO tae (name) VALUES ('Bob');
+INSERT INTO tae (name) VALUES ('Charlie');
+
